@@ -1,0 +1,23 @@
+@startuml
+participant MES_API as "MES API"
+participant Cache as "Кеш"
+participant Database as "БД"
+
+== Получение информации по заказам ==
+MES_API -> Cache : Проверить наличие данных в кеше
+alt Данные есть в кеше
+    Cache --> MES_API : Возврат данных
+else Кеш промах
+    MES_API -> Database : Запрос данных из базы
+    Database --> MES_API : Возврат данных
+    MES_API -> Cache : Обновление кеша
+end
+
+== Изменение информации по заказу ==
+MES_API -> Database : Изменить информацию по заказу
+activate Database
+Database --> MES_API : Информация изменена
+deactivate Database
+MES_API -> Cache : Инвалидация кеша по ключу
+
+@enduml
