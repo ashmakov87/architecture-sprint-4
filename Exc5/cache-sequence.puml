@@ -14,10 +14,11 @@ else Кеш промах
 end
 
 == Изменение информации по заказу ==
-MES_API -> Database : Изменить информацию по заказу
+MES_API -> Cache : Изменить информацию по заказу
+Cache -> Database : Изменить информацию по заказу
 activate Database
 Database --> MES_API : Информация изменена
 deactivate Database
-MES_API -> Cache : Инвалидация кеша по ключу
+
 
 @enduml
